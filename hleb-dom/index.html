@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	body{
+		background: url(bg.jpg);
+	}
+		img{
+			display: none;
+		}
+	</style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.5/dat.gui.js"></script>
+</head>
+<body>
+<img src="22.png" id="image" alt="">
+<img src="water.png" id="mask" alt="">
+<canvas width="800" height="600" id="canvas"></canvas>
+
+
+<script>
+	var canv = document.getElementById('canvas');
+	var ctx = canv.getContext('2d');
+	var img = document.getElementById('image');
+	var mask = document.getElementById('mask');
+	var settings = {pos: 0};
+	var gui = new dat.GUI();
+	gui.add(settings, 'pos').min(0).max(1000);
+
+	// var i = 0;
+	function draw(){
+		// i += 20;
+		var width = 100+settings.pos;
+		var height = width*(600/800);
+		var yy = (600 - height)/2;
+		var xx = (800 - width)/2;
+		ctx.clearRect(0,0,800,600);
+		ctx.globalCompositeOperation = 'source-over';
+		ctx.drawImage(mask,xx,yy,width, height);
+		ctx.globalCompositeOperation = 'source-in';
+		ctx.drawImage(img,0,0);
+		window.requestAnimationFrame(draw);
+	}
+	draw();
+</script>
+	
+</body>
+</html>
